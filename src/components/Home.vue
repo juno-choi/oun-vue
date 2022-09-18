@@ -30,7 +30,9 @@ export default {
       router.push({name:'login'});
     },
     noMember() {
-      console.log('비회원');
+      if(window.confirm("비회원은 루틴을 저장할 수 없습니다! 계속 하시겠어요?")){
+        router.push({name:'choice'});
+      }
     }
   }
 }
