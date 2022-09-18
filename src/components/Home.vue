@@ -1,36 +1,37 @@
 <template>
-<h1 class="text-3xl font-bold underline">This is Home</h1>
-<!-- This example requires Tailwind CSS v2.0+ -->
-<div class="bg-gray-50">
-  <div
-    class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8"
-  >
-    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-      <span class="block">Ready to dive in?</span>
-      <span class="block text-indigo-600">Start your free trial today.</span>
-    </h2>
-    <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-      <div class="inline-flex rounded-md shadow">
-        <a
-          href="#"
-          class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700"
-          >Get started</a
-        >
-      </div>
-      <div class="ml-3 inline-flex rounded-md shadow">
-        <a
-          href="#"
-          class="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-indigo-600 hover:bg-indigo-50"
-          >Learn more</a
-        >
-      </div>
+<div class="bg-white py-12">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <button
+        class="inline-block rounded-md border border-transparent bg-blue-500 py-3 px-8 text-center font-medium text-white hover:bg-blue-700"
+        @click="member"
+        >회원 로그인</button
+      >
+    </div>
+    <div class="text-center mt-3">
+      <button
+        @click="noMember"
+        class="inline-block rounded-md border border-transparent bg-blue-500 py-3 px-8 text-center font-medium text-white hover:bg-blue-700"
+        >비회원 시작</button
+      >
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import router from '@/router/router';
+
 export default {
-    
+  name: 'HomeComponent',
+
+  methods: {
+    member() {
+      router.push({name:'login'});
+    },
+    noMember() {
+      console.log('비회원');
+    }
+  }
 }
 </script>
