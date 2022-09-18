@@ -20,5 +20,6 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Project History
+
+- [o.un vue project start](https://velog.io/@ililil9482/O.un-front-vue%EB%A1%9C-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0-vue-cli-router-Tailwind-profile)
