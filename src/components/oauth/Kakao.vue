@@ -5,12 +5,19 @@
 </template>
 
 <script>
+import api from "@/axios/api";
+
 export default {
     name: 'kakaoOauth',
-    mounted() {
-        document.addEventListener("DOMContentLoaded", () => {
-            const code = this.$route.query.code;
-            alert('백엔드에 데이터 전송 : '+ code);
+    async mounted() {
+        const code = this.$route.query.code;
+        
+        await api.get("/v1/oauth/kakao/login?code="+code)
+        .then(()=>{
+            alert('성공');
+        })
+        .catch(()=>{
+            alert("실패");
         });
     }
 }
