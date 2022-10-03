@@ -21,12 +21,11 @@ export default {
     
     methods: {
         kakaoLogin() { 
-            const key = "e05c246a6b97f69e3b4a9c4c5039ce70";
-            const redirect_uri = process.env.VUE_APP_KAKAO_REDIRECT;
-            const url = `https://kauth.kakao.com/oauth/authorize?client_id=${key}&redirect_uri=${redirect_uri}&response_type=code`;
-
-            location.href = url;
-        }
+          const params = {
+            redirectUri: process.env.VUE_APP_KAKAO_REDIRECT,
+          };
+          window.Kakao.Auth.authorize(params);
+      },
     }
 }
 </script>

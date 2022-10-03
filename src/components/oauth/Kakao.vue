@@ -5,20 +5,35 @@
 </template>
 
 <script>
-import api from "@/axios/api";
-
+import axios from 'axios';
 export default {
     name: 'kakaoOauth',
     async mounted() {
         const code = this.$route.query.code;
-        
-        await api.get("/v1/oauth/kakao/login?code="+code)
-        .then(()=>{
-            alert('성공');
-        })
-        .catch(()=>{
-            alert("실패");
-        });
+        const kakaoHeader = {
+            'Authorization': process.env.VUE_APP_KAKAO_ADMIN,
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        };
+        console.log("kakao login 실행");
+        try {
+            const data = {
+                grant_type: 'authorization_code',
+                client_id: process.env.VUE_APP_KAKAO_API,
+                redirect_uri: process.env.VUE_APP_KAKAO_REDIRECT,
+                code: code,
+            };
+            const queryString = Object.keys(data)
+                .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
+                .join('&');
+            const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString, { headers: kakaoHeader });
+            console.log('카카오 토큰', result);
+            alert(result);
+            return result;
+        } catch (e) {
+            alert('실패');
+            console.log(e);
+            return e;
+        }
     }
 }
 </script>
