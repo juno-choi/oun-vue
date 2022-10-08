@@ -14,6 +14,10 @@ export default {
             'Authorization': process.env.VUE_APP_KAKAO_ADMIN,
             'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         };
+        const apiHeader = {
+            'Content-type': 'application/json;charset=utf-8',
+        };
+        
         console.log("kakao login 실행");
         try {
             const data = {
@@ -26,8 +30,9 @@ export default {
                 .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
                 .join('&');
             const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString, { headers: kakaoHeader });
-            console.log('카카오 토큰', result);
-            alert(result);
+            console.log('카카오 토큰', result.data);
+            const result2 = await axios.post('/v1/kakao/oauth', result.data, { headers: apiHeader });
+            console.log(result2);
             return result;
         } catch (e) {
             alert('실패');

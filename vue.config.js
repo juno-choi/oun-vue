@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer:{
     allowedHosts: "all",
     proxy:{
-      "/ounapi":{
+      "/v1":{
         target: process.env.VUE_APP_API_URL
       }
     }
