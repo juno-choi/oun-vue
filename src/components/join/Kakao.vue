@@ -1,13 +1,13 @@
 <template>
     <div class="text-center">
-        <h1>카카오 로그인 시도 중...</h1>
+        <h1>카카오 회원가입 시도 중...</h1>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 export default {
-    name: 'kakaoOauth',
+    name: 'kakaoJoin',
     async mounted() {
         const code = this.$route.query.code;
         const kakaoHeader = {
@@ -22,7 +22,7 @@ export default {
         const data = {
             grant_type: 'authorization_code',
             client_id: process.env.VUE_APP_KAKAO_API,
-            redirect_uri: process.env.VUE_APP_KAKAO_REDIRECT,
+            redirect_uri: process.env.VUE_APP_KAKAO_JOIN_REDIRECT,
             code: code,
         };
         const queryString = Object.keys(data)
@@ -34,7 +34,7 @@ export default {
         });
         console.log('카카오 토큰', result.data);
 
-        const result2 = await axios.post('/v1/kakao/oauth', result.data, { headers: apiHeader }).then(res => {
+        const result2 = await axios.post('/v1/kakao/join', result.data, { headers: apiHeader }).then(res => {
             alert("서버와 통신 완료");
             console.log(res);
         }).catch(err => { 
