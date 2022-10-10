@@ -35,7 +35,7 @@ export default {
         console.log('카카오 토큰', result.data);
 
         const result2 = await axios.post('/v1/kakao/join', result.data, { headers: apiHeader }).then(res => {
-            alert("서버와 통신 완료");
+            alert("회원 가입 완료");
             console.log(res);
         }).catch(err => { 
             alert("실패");
