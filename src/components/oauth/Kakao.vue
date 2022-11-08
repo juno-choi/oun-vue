@@ -6,6 +6,7 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router/router';
 export default {
     name: 'kakaoOauth',
     async mounted() {
@@ -28,20 +29,35 @@ export default {
         const queryString = Object.keys(data)
             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
             .join('&');
-        const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString, { headers: kakaoHeader }).catch(err => {
-            alert("kakao와 통신에 실패했습니다... 관리자에게 문의해주세요!");    
-            return;
-        });
-        console.log('카카오 토큰', result.data);
+        const result = await axios.post('https://kauth.kakao.com/oauth/token', queryString, { headers: kakaoHeader })
+            .then(res => res)
+            .catch(err => {
+                alert("kakao와 통신에 실패했습니다... 관리자에게 문의해주세요!");    
+                return;
+            });
 
-        const result2 = await axios.post('/v1/kakao/oauth', result.data, { headers: apiHeader }).then(res => {
-            alert("로그인 완료");
-            console.log(res);
+        await axios.post('/v1/kakao/auth', result.data, { headers: apiHeader }).then(res => {
+            const result = res.data;
+            const now = Date.now();
+            const access = result.data.access_token_expires-now;
+            const refresh = result.data.refresh_token_expires-now;
+            console.log(parseInt(access));
+            console.log(parseInt(refresh));
+
+            // cookie 생성
+            document.cookie = `access=${result.data.access_token}; path=/; max-age=${parseInt(access/1000)}`;
+            document.cookie = `refresh=${result.data.refresh_token}; path=/; max-age=${parseInt(refresh/1000)}`;
+            router.push({ name: 'home'});
         }).catch(err => { 
-            alert("실패");
-            console.log(err);
+            const result = err.response;
+            if (result.status == 401) { 
+                alert(result.data.resultMsg);
+                router.push({ name: 'login' });
+                return;
+            }
+            alert("알 수 없는 에러 발생... 관리자에게 문의해주세요!");
         });
-        console.log(result2);
+
         return result;
     }
 }

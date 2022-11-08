@@ -6,6 +6,7 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router/router';
 export default {
     name: 'kakaoJoin',
     async mounted() {
@@ -35,13 +36,12 @@ export default {
         console.log('카카오 토큰', result.data);
 
         const result2 = await axios.post('/v1/kakao/join', result.data, { headers: apiHeader }).then(res => {
-            alert("회원 가입 완료");
-            console.log(res);
+            alert("회원 가입 완료! 로그인 후 진행해주세요!");
+            router.push({name:'login'});
         }).catch(err => { 
-            alert("실패");
-            console.log(err);
+            alert(err.response.data.resultMsg);
+            router.push({name:'login'});
         });
-        console.log(result2);
         return result;
     }
 }
